@@ -23,10 +23,10 @@ export const signUp =async (req, res) => {
       let savedUser = await user.save();
       let token = jwt.sign({ id: savedUser._id }, process.env.jwtkey, { expiresIn: 60 });
       let refreshToken = jwt.sign({ id: savedUser._id }, process.env.jwtkey, { expiresIn: 60* 60 *7 });
-      let message = `<a href="http://localhost:3000/api/v1/auth/confirmEmail/${token}">please click here to verify your email</a>
+      let message = `<a href="https://e-commerce-back-end-ahmed-m-abuhajjar.onrender.com/api/v1/auth/confirmEmail/${token}">please click here to verify your email</a>
      <br>
      <br>
-     <a href="http://localhost:3000/api/v1/auth/refreshToken/${refreshToken}">please click to refreshToken</a>
+     <a href="https://e-commerce-back-end-ahmed-m-abuhajjar.onrender.com/api/v1/auth/refreshToken/${refreshToken}">please click to refreshToken</a>
       `;
       let subject="confirm your mail"
       sendEmail(email,subject, message);
@@ -81,15 +81,15 @@ if (foundedUser) {
       if (user) {
         // Updating the user's profile to confirm their email
         await userModel.findByIdAndUpdate(decoded.id, { confirmEmail: true }, {new:true});
-        res.redirect("http://localhost:8080/#/EmailConfirmed");
+        res.redirect("https://ahmed-m-abuhajjar.github.io/E-commerce-front-end/#/EmailConfirmed");
       } else {
-        res.redirect("http://localhost:8080/#/home");
+        res.redirect("https://ahmed-m-abuhajjar.github.io/E-commerce-front-end/#/home");
       }
     } else {
         res.json({ message: " invalid token" });
      }
     } catch (error) {
-      res.redirect("http://localhost:8080/#/TokenExpired")
+      res.redirect("https://ahmed-m-abuhajjar.github.io/E-commerce-front-end/#/TokenExpired")
     }
   };
 // Defining a controller function for refreshing the token
@@ -109,15 +109,15 @@ if (foundedUser) {
       } else {
         if (user.confirmEmail) {
           // If the user has confirmed their email, redirect to the home page
-          res.redirect("http://localhost:8080/#/home")
+          res.redirect("https://e-commerce-back-end-ahmed-m-abuhajjar.onrender.com/#/home")
         } else {
           // If the user has not confirmed their email, generate a new token, 
           // create a confirmation message, send it to the user, and redirect to the refresh token page
             let token = jwt.sign({ id: user._id }, process.env.jwtkey);
-         let message = `<a href="http://localhost:3000/api/v1/auth/confirmEmail/${token}">this is the second email</a>`;
+         let message = `<a href="https://e-commerce-back-end-ahmed-m-abuhajjar.onrender.com/api/v1/auth/confirmEmail/${token}">this is the second email</a>`;
          let subject="new confirmation mail"
          sendEmail(user.email,subject, message);
-         res.redirect('http://localhost:8080/#/RefreshToken');
+         res.redirect('https://e-commerce-back-end-ahmed-m-abuhajjar.onrender.com/#/RefreshToken');
         }
       }
     }
